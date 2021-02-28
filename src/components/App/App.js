@@ -38,8 +38,22 @@ const App = (props) => {
             axios
                 .get('http://localhost:5000/api/search?jql=' + jql)
                 .then((res) => {
-                    const issues = res.data.issues;
-                    setData(issues.length);
+                    const totalIssues = res.data.total;
+                    const issues = res.data.issues.map((issue) => {
+                        issue.fields = Object.keys(issue.fields).reduce(
+                            (object, key) => {
+                                if (!key.includes('customfield')) {
+                                    object[key] = issue.fields[key];
+                                }
+                                return object;
+                            },
+                            {}
+                        );
+
+                        return issue;
+                    });
+                    console.log(issues);
+                    setData(totalIssues);
                 });
         }
     };
