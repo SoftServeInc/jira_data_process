@@ -1,25 +1,91 @@
-import React, {useState} from 'react';
-import {Fragment} from 'react';
+import React, {useState, Fragment} from 'react';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import {withStyles} from '@material-ui/core/styles';
 import axios from 'axios';
 
 import './css/App.css';
 
-const App = () => {
+const styles = (theme) => ({
+    button: {
+        margin: theme.spacing.unit
+    },
+    margin: {
+        margin: theme.spacing.unit
+    },
+    rightIcon: {
+        marginLeft: theme.spacing.unit
+    }
+});
+
+const App = (props) => {
+    const {classes} = props;
+
     const [data, setData] = useState('Empty');
+    const [jql, setJQL] = useState('');
+
+    const isDataPresent = (data) => {
+        if (data && data !== 'Empty') {
+            return false;
+        }
+
+        return true;
+    };
 
     const btnClick = () => {
-        axios.get(`http://localhost:5000/api/search`).then((res) => {
-            const issues = res.data.issues;
-            setData(issues.length);
-        });
+        if (jql !== '') {
+            axios
+                .get('http://localhost:5000/api/search?jql=' + jql)
+                .then((res) => {
+                    const issues = res.data.issues;
+                    setData(issues.length);
+                });
+        }
+    };
+
+    const handleJiraQueryChange = (e) => {
+        setJQL(e.target.value);
     };
 
     return (
         <Fragment>
-            <button onClick={btnClick}>Click to get issue status</button>
+            <div className="Form_Container">
+                <TextField
+                    id="outlined-multiline-static"
+                    label="Jira Query"
+                    multiline
+                    rows={4}
+                    defaultValue={jql}
+                    variant="outlined"
+                    onChange={handleJiraQueryChange}
+                />
+                <div className="buttons">
+                    <Button
+                        variant="contained"
+                        size="large"
+                        color="primary"
+                        className={classes.margin}
+                        onClick={btnClick}
+                        disabled={!jql}
+                    >
+                        GET DATA
+                    </Button>
+                    <Button
+                        variant="contained"
+                        size="large"
+                        color="default"
+                        className={classes.button}
+                        disabled={isDataPresent(data)}
+                    >
+                        Upload
+                        <CloudUploadIcon className={classes.rightIcon} />
+                    </Button>
+                </div>
+            </div>
             <table>{data}</table>
         </Fragment>
     );
 };
 
-export default App;
+export default withStyles(styles)(App);
