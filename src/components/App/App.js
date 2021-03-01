@@ -4,6 +4,7 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
+import CircularProgress from '@material-ui/core/CircularProgress';
 const Excel = require('exceljs');
 import {saveAs} from '@progress/kendo-file-saver';
 import {withStyles} from '@material-ui/core/styles';
@@ -31,6 +32,7 @@ const App = (props) => {
 
     const [status, setStatus] = useState(null);
     const [username, setUsername] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [password, setPassword] = useState(null);
     const [isUsernameTouched, setIsUsernameTouched] = useState(false);
     const [isPasswordTouched, setIsPasswordTouched] = useState(false);
@@ -45,39 +47,40 @@ const App = (props) => {
     };
 
     const clickOnGetData = () => {
-        if (jql !== '') {
-            axios
-                .get(
-                    'http://localhost:5000/api/search?username=' +
-                        username +
-                        '&password=' +
-                        password +
-                        '&jql=' +
-                        jql
-                )
-                .then((res) => {
-                    if (res.data) {
-                        const issues = res.data.issues.map((issue) => {
-                            issue.fields = Object.keys(issue.fields).reduce(
-                                (object, key) => {
-                                    if (!key.includes('customfield')) {
-                                        object[key] = issue.fields[key];
-                                    }
-                                    return object;
-                                },
-                                {}
-                            );
+        setIsLoading(true);
+        axios
+            .get(
+                'http://localhost:5000/api/search?username=' +
+                    username +
+                    '&password=' +
+                    password +
+                    '&jql=' +
+                    jql
+            )
+            .then((res) => {
+                if (res.data) {
+                    const issues = res.data.issues.map((issue) => {
+                        issue.fields = Object.keys(issue.fields).reduce(
+                            (object, key) => {
+                                if (!key.includes('customfield')) {
+                                    object[key] = issue.fields[key];
+                                }
+                                return object;
+                            },
+                            {}
+                        );
 
-                            return issue;
-                        });
-                        // eslint-disable-next-line no-console
-                        console.log(issues);
-                        setStatus('Success! Data was received');
-                    } else {
-                        setStatus(ERROR_MESSAGE);
-                    }
-                });
-        }
+                        return issue;
+                    });
+                    // eslint-disable-next-line no-console
+                    console.log(issues);
+                    setIsLoading(false);
+                    setStatus('Success! Data was received');
+                } else {
+                    setIsLoading(false);
+                    setStatus(ERROR_MESSAGE);
+                }
+            });
     };
 
     const downloadFileOnClick = () => {
@@ -196,13 +199,19 @@ const App = (props) => {
                         <CloudUploadIcon className={classes.rightIcon} />
                     </Button>
                 </div>
-                <div
-                    className={`status ${
-                        status === ERROR_MESSAGE ? 'error' : 'success'
-                    }`}
-                >
-                    {status}
-                </div>
+                {isLoading ? (
+                    <div className="status">
+                        <CircularProgress className="status" />
+                    </div>
+                ) : (
+                    <div
+                        className={`status ${
+                            status === ERROR_MESSAGE ? 'error' : 'success'
+                        }`}
+                    >
+                        {status}
+                    </div>
+                )}
             </div>
         </Fragment>
     );

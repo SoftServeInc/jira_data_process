@@ -70,12 +70,17 @@ body {
 
 .status {
   text-align: center;
+  margin: 10px auto;
 }
 
 .error {
   color:red;
+  margin-top: 0 !important;
+  padding-bottom: 30px;
 }
 
 .success {
   color:green;
+  margin-top: 0 !important;
+  padding-bottom: 30px;
 }
