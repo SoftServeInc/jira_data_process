@@ -39,12 +39,15 @@ body {
 .jira_credentails_container {
   width: 400px;
   text-align: center;
-  margin: auto;
+  margin: 30px auto;
 }
 
-.jira_credentials {
+.jira_credentails {
+  margin: 20px auto;
+}
+
+.jira_credentails_field {
   width: 250px !important;
-  margin-top: 30px auto !important;
 }
 
 .Form_Container {
@@ -62,5 +65,17 @@ body {
 }
 
 .jira_credentails_title {
-  margin-top: 50px !important;
+  margin-top: 30px !important;
+}
+
+.status {
+  text-align: center;
+}
+
+.error {
+  color:red;
+}
+
+.success {
+  color:green;
 }
