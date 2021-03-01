@@ -22,7 +22,6 @@ run the following to start the application:
 * [React.js](https://reactjs.org/) - The web framework used
 * [React Router Dom](https://www.npmjs.com/package/react-router-dom) - Routing
 * [Styled Components](https://styled-components.com/) - In-component CSS styling
-* [React Icons](https://react-icons.netlify.com/#/) - Icons
 
 ## Authors
 

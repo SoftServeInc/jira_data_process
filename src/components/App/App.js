@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import ScrollTop from 'im';
 const Excel = require('exceljs');
 import {saveAs} from '@progress/kendo-file-saver';
 import {withStyles} from '@material-ui/core/styles';
@@ -213,6 +214,7 @@ const App = (props) => {
                     </div>
                 )}
             </div>
+            <ScrollTop className="scroll-btn" />
         </Fragment>
     );
 };
