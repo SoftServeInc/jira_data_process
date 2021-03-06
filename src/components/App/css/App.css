@@ -61,17 +61,14 @@ body {
 }
 
 .Form_Container {
-    margin: 30px auto 50px;
+    margin: 30px auto 20px;
     width: 400px;
 }
 
-.buttons {
+.dataButton {
   text-align: center;
-  margin-top: 5px;
-}
-
-.MuiButtonBase-root {
-  width: 150px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 .jira_credentails_title {
@@ -86,16 +83,34 @@ body {
 .error {
   color:red;
   margin-top: 0 !important;
-  padding-bottom: 30px;
+  padding-bottom: 20px;
 }
 
 .success {
   color:green;
-  margin-top: 0 !important;
-  padding-bottom: 30px;
+  margin-top: 10px !important;
 }
 
 #scroll-to-top button {
   outline: none;
   border: none;
+}
+
+.checkboxes {
+  width: 954px;
+  margin: auto;
+}
+
+.MuiFormControlLabel-root {
+  margin: 0px 16px 0px 0px !important;
+}
+
+.MuiFormControlLabel-root:last-child {
+  margin-right: 12px !important;
+}
+
+.uploadTitle {
+  width: 600px;
+  margin: 30px auto !important;
+  ;
 }

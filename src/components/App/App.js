@@ -1,14 +1,17 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, useRef, Fragment} from 'react';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
 import Typography from '@material-ui/core/Typography';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import FormGroup from '@material-ui/core/FormGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
+import {withStyles} from '@material-ui/core/styles';
 import ScrollTop from 'im';
 const Excel = require('exceljs');
 import {saveAs} from '@progress/kendo-file-saver';
-import {withStyles} from '@material-ui/core/styles';
 import axios from 'axios';
 
 import './css/App.css';
@@ -22,15 +25,21 @@ const styles = (theme) => ({
     },
     rightIcon: {
         marginLeft: theme.spacing(1)
+    },
+    root: {
+        display: 'flex'
     }
 });
 
 const ERROR_MESSAGE =
     "Something went wrong. Maybe it's the problem with your VPN connection. Also, please check your JIRA credentials, URL, query and try again...";
+const SUCCESS_MESSAGE = 'Success! Data was received';
 
 const App = (props) => {
     const {classes} = props;
 
+    const bottomRef = useRef();
+    const [receivedData, setReceivedData] = useState(null);
     const [status, setStatus] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [jiraUrl, setJiraUrl] = useState(null);
@@ -40,6 +49,16 @@ const App = (props) => {
     const [isUsernameTouched, setIsUsernameTouched] = useState(false);
     const [isPasswordTouched, setIsPasswordTouched] = useState(false);
     const [jql, setJQL] = useState('');
+    const [checkboxState, setCheckboxState] = useState({
+        labelsChecked: false,
+        componentsChecked: false,
+        fixVersionsChecked: false,
+        subtasksCountChecked: false,
+        priorityChecked: false,
+        reporterChecked: false,
+        updatedDateChecked: false
+    });
+    const [finalData, setFinalData] = useState(null);
 
     const isDataPresent = (data) => {
         if (data && data !== ERROR_MESSAGE) {
@@ -51,6 +70,10 @@ const App = (props) => {
 
     const clickOnGetData = () => {
         setIsLoading(true);
+        setTimeout(
+            () => bottomRef.current.scrollIntoView({behavior: 'smooth'}),
+            250
+        );
         axios
             .get(
                 'http://localhost:5000/api/search?jiraUrl=' +
@@ -67,7 +90,10 @@ const App = (props) => {
                     const issues = res.data.issues.map((issue) => {
                         issue.fields = Object.keys(issue.fields).reduce(
                             (object, key) => {
-                                if (!key.includes('customfield')) {
+                                if (
+                                    key.includes('customfield_10103') ||
+                                    !key.includes('customfield')
+                                ) {
                                     object[key] = issue.fields[key];
                                 }
                                 return object;
@@ -79,11 +105,26 @@ const App = (props) => {
                     });
                     // eslint-disable-next-line no-console
                     console.log(issues);
+                    setReceivedData(issues);
                     setIsLoading(false);
-                    setStatus('Success! Data was received');
+                    setStatus(SUCCESS_MESSAGE);
+                    setTimeout(
+                        () =>
+                            bottomRef.current.scrollIntoView({
+                                behavior: 'smooth'
+                            }),
+                        250
+                    );
                 } else {
                     setIsLoading(false);
                     setStatus(ERROR_MESSAGE);
+                    setTimeout(
+                        () =>
+                            bottomRef.current.scrollIntoView({
+                                behavior: 'smooth'
+                            }),
+                        250
+                    );
                 }
             });
     };
@@ -91,7 +132,22 @@ const App = (props) => {
     const downloadFileOnClick = () => {
         let workbook = new Excel.Workbook();
         let worksheet = workbook.addWorksheet('Jira');
-        worksheet.columns = [{header: 'Issue type', key: 'issueType'}];
+        worksheet.columns = [
+            {header: 'Key', key: 'key'},
+            {header: 'Type', key: 'type'},
+            {header: 'Summary', key: 'summary'},
+            {header: 'Assignee', key: 'assignee'},
+            {header: 'Story Points', key: 'story_points'},
+            {header: 'Status', key: 'status'},
+            {header: 'Labels', key: 'labels'},
+            {header: 'Components', key: 'components'},
+            {header: 'Fix Versions', key: 'fix_versions'},
+            {header: 'Subtasks count', key: 'subtasks_count'},
+            {header: 'Priority', key: 'priority'},
+            {header: 'Reporter', key: 'reporter'},
+            {header: 'Updated', key: 'updated'}
+        ];
+
         worksheet.columns.forEach((column) => {
             column.width =
                 column.header.length < 12 ? 12 : column.header.length;
@@ -128,6 +184,13 @@ const App = (props) => {
         setJQL(e.target.value);
     };
 
+    const handleCheckboxChange = (event) => {
+        setCheckboxState({
+            ...checkboxState,
+            [event.target.name]: event.target.checked
+        });
+    };
+
     return (
         <Fragment>
             <Typography variant="h2" gutterBottom align="center">
@@ -140,8 +203,7 @@ const App = (props) => {
                 align="center"
                 className="jira_url_title"
             >
-                Please, enter your JIRA URL below! (Example -
-                jira.organization.com)
+                Please, enter JIRA URL below! (Example - jira.organization.com)
             </Typography>
             <form className="jira_url_container" noValidate autoComplete="off">
                 <div className="jira_url">
@@ -150,7 +212,6 @@ const App = (props) => {
                         required
                         error={isJiraUrlTouched && !jiraUrl}
                         helperText="Jira URL field can't be empty."
-                        id="filled-required"
                         label="Jira URL"
                         type="text"
                         defaultValue={jiraUrl}
@@ -165,7 +226,7 @@ const App = (props) => {
                 align="center"
                 className="jira_credentails_title"
             >
-                Please, enter your JIRA credentials below!
+                Please, enter your JIRA credentials here!
             </Typography>
             <form
                 className="jira_credentails_container"
@@ -178,7 +239,6 @@ const App = (props) => {
                         required
                         error={isUsernameTouched && !username}
                         helperText="Username can't be empty."
-                        id="filled-required"
                         label="Usename"
                         type="text"
                         defaultValue={username}
@@ -202,7 +262,7 @@ const App = (props) => {
                 </div>
             </form>
             <Typography variant="h6" gutterBottom align="center">
-                Please, enter your JIRA query below!
+                Please, enter JIRA query needed to retrieve issues data!
             </Typography>
             <div className="Form_Container">
                 <TextField
@@ -214,7 +274,7 @@ const App = (props) => {
                     variant="outlined"
                     onChange={handleJiraQueryChange}
                 />
-                <div className="buttons">
+                <div className="dataButton">
                     <Button
                         variant="contained"
                         size="large"
@@ -225,17 +285,6 @@ const App = (props) => {
                     >
                         GET DATA
                     </Button>
-                    <Button
-                        variant="contained"
-                        size="large"
-                        color="default"
-                        className={classes.button}
-                        onClick={downloadFileOnClick}
-                        disabled={isDataPresent(status)}
-                    >
-                        Upload
-                        <CloudUploadIcon className={classes.rightIcon} />
-                    </Button>
                 </div>
                 {isLoading ? (
                     <div className="status">
@@ -244,13 +293,138 @@ const App = (props) => {
                 ) : (
                     <div
                         className={`status ${
-                            status === ERROR_MESSAGE ? 'error' : 'success'
+                            status === ERROR_MESSAGE
+                                ? 'error'
+                                : status === SUCCESS_MESSAGE
+                                ? 'success'
+                                : ''
                         }`}
                     >
                         {status}
                     </div>
                 )}
             </div>
+            {status && status !== ERROR_MESSAGE && (
+                <Fragment>
+                    <Typography
+                        variant="h5"
+                        gutterBottom
+                        align="center"
+                        className="uploadTitle"
+                    >
+                        You can download the file with issues data by clicking
+                        the button below! Also, you can choose additional
+                        fields, on which data will be saved in your file too!
+                    </Typography>
+                    <Typography variant="h6" gutterBottom align="center">
+                        Optional fields
+                    </Typography>
+                    <div className="checkboxes">
+                        <div className={classes.root}>
+                            <FormGroup className={classes.formGroup} row>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.reporterChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="reporterChecked"
+                                        />
+                                    }
+                                    label="Reporter"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.labelsChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="labelsChecked"
+                                        />
+                                    }
+                                    label="Labels"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.priorityChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="priorityChecked"
+                                        />
+                                    }
+                                    label="Priority"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.subtasksCountChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="subtasksCountChecked"
+                                        />
+                                    }
+                                    label="Subtasks count"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.updatedDateChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="updatedDateChecked"
+                                        />
+                                    }
+                                    label="Updated date"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.componentsChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="componentsChecked"
+                                        />
+                                    }
+                                    label="Components"
+                                />
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={
+                                                checkboxState.fixVersionsChecked
+                                            }
+                                            onChange={handleCheckboxChange}
+                                            name="fixVersionsChecked"
+                                        />
+                                    }
+                                    label="Fix versions"
+                                />
+                            </FormGroup>
+                        </div>
+                    </div>
+                    <div className="dataButton">
+                        <Button
+                            variant="contained"
+                            size="large"
+                            color="default"
+                            className={classes.button}
+                            onClick={downloadFileOnClick}
+                            disabled={isDataPresent(status)}
+                        >
+                            Upload
+                            <CloudUploadIcon className={classes.rightIcon} />
+                        </Button>
+                    </div>
+                </Fragment>
+            )}
+            <div ref={bottomRef} />
             <ScrollTop id="scroll-to-top" />
         </Fragment>
     );
