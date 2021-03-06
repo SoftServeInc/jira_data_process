@@ -26,15 +26,17 @@ const styles = (theme) => ({
 });
 
 const ERROR_MESSAGE =
-    'Something went wrong. Please check your credentials and JIRA query and try again...';
+    "Something went wrong. Maybe it's the problem with your VPN connection. Also, please check your JIRA credentials, URL, query and try again...";
 
 const App = (props) => {
     const {classes} = props;
 
     const [status, setStatus] = useState(null);
-    const [username, setUsername] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [jiraUrl, setJiraUrl] = useState(null);
+    const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
+    const [isJiraUrlTouched, setIsJiraUrlTouched] = useState(false);
     const [isUsernameTouched, setIsUsernameTouched] = useState(false);
     const [isPasswordTouched, setIsPasswordTouched] = useState(false);
     const [jql, setJQL] = useState('');
@@ -51,7 +53,9 @@ const App = (props) => {
         setIsLoading(true);
         axios
             .get(
-                'http://localhost:5000/api/search?username=' +
+                'http://localhost:5000/api/search?jiraUrl=' +
+                    jiraUrl +
+                    '&username=' +
                     username +
                     '&password=' +
                     password +
@@ -96,6 +100,14 @@ const App = (props) => {
         saveAs(workbook.xlsx, 'data_sheet.xlsx');
     };
 
+    const handleJiraUrlChange = (e) => {
+        setJiraUrl(e.target.value);
+
+        if (!isJiraUrlTouched) {
+            setIsJiraUrlTouched(true);
+        }
+    };
+
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
 
@@ -126,9 +138,34 @@ const App = (props) => {
                 variant="h6"
                 gutterBottom
                 align="center"
+                className="jira_url_title"
+            >
+                Please, enter your JIRA URL below! (Example -
+                jira.organization.com)
+            </Typography>
+            <form className="jira_url_container" noValidate autoComplete="off">
+                <div className="jira_url">
+                    <TextField
+                        variant="outlined"
+                        required
+                        error={isJiraUrlTouched && !jiraUrl}
+                        helperText="Jira URL field can't be empty."
+                        id="filled-required"
+                        label="Jira URL"
+                        type="text"
+                        defaultValue={jiraUrl}
+                        className="jira_url_field"
+                        onChange={handleJiraUrlChange}
+                    />
+                </div>
+            </form>
+            <Typography
+                variant="h6"
+                gutterBottom
+                align="center"
                 className="jira_credentails_title"
             >
-                Please, enter your JIRA credentials below! (jira.expedia.biz)
+                Please, enter your JIRA credentials below!
             </Typography>
             <form
                 className="jira_credentails_container"
@@ -165,7 +202,7 @@ const App = (props) => {
                 </div>
             </form>
             <Typography variant="h6" gutterBottom align="center">
-                Please, enter JIRA query below!
+                Please, enter your JIRA query below!
             </Typography>
             <div className="Form_Container">
                 <TextField
@@ -184,7 +221,7 @@ const App = (props) => {
                         color="primary"
                         className={classes.margin}
                         onClick={clickOnGetData}
-                        disabled={!jql}
+                        disabled={!jiraUrl || !jql || !username || !password}
                     >
                         GET DATA
                     </Button>
@@ -214,7 +251,7 @@ const App = (props) => {
                     </div>
                 )}
             </div>
-            <ScrollTop className="scroll-btn" />
+            <ScrollTop id="scroll-to-top" />
         </Fragment>
     );
 };

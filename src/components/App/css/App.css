@@ -36,6 +36,16 @@ body {
   width: 100%;
 }
 
+.jira_url_title {
+  margin-top: 30px !important;
+}
+
+.jira_url_container {
+  width: 400px;
+  text-align: center;
+  margin: 30px auto;
+}
+
 .jira_credentails_container {
   width: 400px;
   text-align: center;
@@ -83,4 +93,9 @@ body {
   color:green;
   margin-top: 0 !important;
   padding-bottom: 30px;
+}
+
+#scroll-to-top button {
+  outline: none;
+  border: none;
 }
