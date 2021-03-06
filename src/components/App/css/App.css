@@ -96,7 +96,21 @@ body {
   border: none;
 }
 
-.checkboxes {
+.optionalFieldsContainer {
+  margin-top: 10px;
+}
+
+.unblockCheckbox {
+  width: fit-content;
+  margin: auto;
+}
+
+.requiredCheckboxes {
+  width: 720px;
+  margin: auto;
+}
+
+.optionalCheckboxes {
   width: 954px;
   margin: auto;
 }

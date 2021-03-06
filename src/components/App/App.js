@@ -62,6 +62,13 @@ const App = (props) => {
     const [receivedProcessedData, setReceivedProcessedData] = useState(null);
     const [resultedData, setResultedData] = useState(null);
     const [checkboxState, setCheckboxState] = useState({
+        keyChecked: true,
+        issueTypeChecked: true,
+        summaryChecked: true,
+        assigneeChecked: true,
+        storyPointsChecked: true,
+        statusChecked: true,
+        unblockChecked: false,
         labelsChecked: false,
         componentsChecked: false,
         fixVersionsChecked: false,
@@ -365,9 +372,128 @@ const App = (props) => {
                         fields, on which data will be saved in your file too!
                     </Typography>
                     <Typography variant="h6" gutterBottom align="center">
-                        Optional fields
+                        Required fields
                     </Typography>
-                    <div className="checkboxes">
+                    <div className="unblockCheckbox">
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        checked={checkboxState.unblockChecked}
+                                        onChange={handleCheckboxChange}
+                                        name="unblockChecked"
+                                        disabled={checkboxState.agreeChecked}
+                                        color="primary"
+                                    />
+                                }
+                                label="Do you want to configure required fields?"
+                            />
+                        </FormGroup>
+                    </div>
+                    {checkboxState.unblockChecked && (
+                        <div className="requiredCheckboxes">
+                            <div className={classes.root}>
+                                <FormGroup className={classes.formGroup} row>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={
+                                                    checkboxState.keyChecked
+                                                }
+                                                onChange={handleCheckboxChange}
+                                                name="keyChecked"
+                                                disabled={
+                                                    checkboxState.agreeChecked
+                                                }
+                                            />
+                                        }
+                                        label="Key"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={
+                                                    checkboxState.issueTypeChecked
+                                                }
+                                                onChange={handleCheckboxChange}
+                                                name="issueTypeChecked"
+                                                disabled={
+                                                    checkboxState.agreeChecked
+                                                }
+                                            />
+                                        }
+                                        label="Issue Type"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={
+                                                    checkboxState.summaryChecked
+                                                }
+                                                onChange={handleCheckboxChange}
+                                                name="summaryChecked"
+                                                disabled={
+                                                    checkboxState.agreeChecked
+                                                }
+                                            />
+                                        }
+                                        label="Summary"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={
+                                                    checkboxState.assigneeChecked
+                                                }
+                                                onChange={handleCheckboxChange}
+                                                name="assigneeChecked"
+                                                disabled={
+                                                    checkboxState.agreeChecked
+                                                }
+                                            />
+                                        }
+                                        label="Assignee"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={
+                                                    checkboxState.storyPointsChecked
+                                                }
+                                                onChange={handleCheckboxChange}
+                                                name="storyPointsChecked"
+                                                disabled={
+                                                    checkboxState.agreeChecked
+                                                }
+                                            />
+                                        }
+                                        label="Story points"
+                                    />
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={
+                                                    checkboxState.statusChecked
+                                                }
+                                                onChange={handleCheckboxChange}
+                                                name="statusChecked"
+                                                disabled={
+                                                    checkboxState.agreeChecked
+                                                }
+                                            />
+                                        }
+                                        label="Status"
+                                    />
+                                </FormGroup>
+                            </div>
+                        </div>
+                    )}
+                    <div className="optionalFieldsContainer">
+                        <Typography variant="h6" gutterBottom align="center">
+                            Optional fields
+                        </Typography>
+                    </div>
+                    <div className="optionalCheckboxes">
                         <div className={classes.root}>
                             <FormGroup className={classes.formGroup} row>
                                 <FormControlLabel
@@ -488,7 +614,7 @@ const App = (props) => {
                                         name="agreeChecked"
                                     />
                                 }
-                                label="Are you agree with current configuration?"
+                                label="Are you agree with the current configuration?"
                             />
                         </FormGroup>
                     </div>
