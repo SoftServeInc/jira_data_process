@@ -60,7 +60,7 @@ const App = (props) => {
     const [isPasswordTouched, setIsPasswordTouched] = useState(false);
     const [jql, setJQL] = useState('');
     const [receivedProcessedData, setReceivedProcessedData] = useState(null);
-    const [resultedData, setResultedData] = useState(null);
+    // const [resultedData, setResultedData] = useState(null);
     const [checkboxState, setCheckboxState] = useState({
         keyChecked: true,
         issueTypeChecked: true,
@@ -244,6 +244,46 @@ const App = (props) => {
             ...checkboxState,
             [event.target.name]: event.target.checked
         });
+
+        if (!checkboxState.agreeChecked) {
+            const finalData = receivedProcessedData.map((issue) => {
+                return {
+                    key: checkboxState.keyChecked ? issue.key : '',
+                    issueType: checkboxState.issueTypeChecked
+                        ? issue.issueType
+                        : '',
+                    summary: checkboxState.summaryChecked ? issue.summary : '',
+                    assignee: checkboxState.assigneeChecked
+                        ? issue.assignee
+                        : '',
+                    storyPoints: checkboxState.storyPointsChecked
+                        ? issue.storyPoints
+                        : '',
+                    status: checkboxState.statusChecked ? issue.status : '',
+                    labels: checkboxState.labelsChecked ? issue.labels : '',
+                    components: checkboxState.componentsChecked
+                        ? issue.components
+                        : '',
+                    fixVersions: checkboxState.fixVersionsChecked
+                        ? issue.fixVersions
+                        : '',
+                    subtasksCount: checkboxState.subtasksCountChecked
+                        ? issue.subtasksCount
+                        : '',
+                    priority: checkboxState.priorityChecked
+                        ? issue.priority
+                        : '',
+                    reporter: checkboxState.reporterChecked
+                        ? issue.reporter
+                        : '',
+                    updated: checkboxState.updatedDateChecked
+                        ? issue.updated
+                        : ''
+                };
+            });
+            // eslint-disable-next-line no-console
+            console.log(finalData);
+        }
     };
 
     return (
@@ -614,7 +654,7 @@ const App = (props) => {
                                         name="agreeChecked"
                                     />
                                 }
-                                label="Are you agree with the current configuration?"
+                                label="Are you agree with current configuration?"
                             />
                         </FormGroup>
                     </div>
