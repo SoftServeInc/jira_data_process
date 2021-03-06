@@ -39,7 +39,7 @@ const App = (props) => {
     const {classes} = props;
 
     const bottomRef = useRef();
-    const [receivedData, setReceivedData] = useState(null);
+    const [data, setData] = useState(null);
     const [status, setStatus] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [jiraUrl, setJiraUrl] = useState(null);
@@ -58,7 +58,6 @@ const App = (props) => {
         reporterChecked: false,
         updatedDateChecked: false
     });
-    const [finalData, setFinalData] = useState(null);
 
     const isDataPresent = (data) => {
         if (data && data !== ERROR_MESSAGE) {
@@ -70,6 +69,7 @@ const App = (props) => {
 
     const clickOnGetData = () => {
         setIsLoading(true);
+        setData(null);
         setTimeout(() => bottomRef.current.scrollIntoView(), 250);
         axios
             .get(
@@ -84,25 +84,70 @@ const App = (props) => {
             )
             .then((res) => {
                 if (res.data) {
-                    const issues = res.data.issues.map((issue) => {
-                        issue.fields = Object.keys(issue.fields).reduce(
-                            (object, key) => {
-                                if (
-                                    key.includes('customfield_10103') ||
-                                    !key.includes('customfield')
-                                ) {
-                                    object[key] = issue.fields[key];
-                                }
-                                return object;
-                            },
-                            {}
-                        );
+                    const issues = res.data.issues
+                        .filter(
+                            (issue) =>
+                                issue.fields.issuetype.name !== 'Sub-Task'
+                        )
+                        .map((issue) => {
+                            issue.fields = Object.keys(issue.fields).reduce(
+                                (object, key) => {
+                                    if (
+                                        key.includes('customfield_10103') ||
+                                        !key.includes('customfield')
+                                    ) {
+                                        object[key] = issue.fields[key];
+                                    }
+                                    return object;
+                                },
+                                {}
+                            );
 
-                        return issue;
-                    });
+                            return issue;
+                        });
                     // eslint-disable-next-line no-console
                     console.log(issues);
-                    setReceivedData(issues);
+                    const processedIssues = issues.map((issue) => {
+                        return {
+                            key: issue.key,
+                            issueType: issue.fields.issuetype
+                                ? issue.fields.issuetype.name
+                                : '',
+                            summary: issue.fields.summary,
+                            assignee: issue.fields.assignee
+                                ? issue.fields.assignee.displayName
+                                : '',
+                            storyPoints: issue.fields.customfield_10103
+                                ? issue.fields.customfield_10103
+                                : '',
+                            status: issue.fields.status
+                                ? issue.fields.status.name
+                                : '',
+                            labels: issue.fields.labels
+                                ? issue.fields.labels.join(', ')
+                                : '',
+                            components: issue.fields.components
+                                ? issue.fields.components
+                                      .map((component) => component.name)
+                                      .join(', ')
+                                : '',
+                            fixVersions: issue.fields.fixVersions
+                                ? issue.fields.fixVersions
+                                      .map((component) => component.name)
+                                      .join(', ')
+                                : '',
+                            subtasksCount: issue.fields.subtasks.length,
+                            priority: issue.fields.priority
+                                ? issue.fields.priority.name
+                                : '',
+                            reporter: issue.fields.reporter
+                                ? issue.fields.reporter.displayName
+                                : '',
+                            updated: issue.fields.updated
+                        };
+                    });
+                    setData(processedIssues);
+                    console.log(processedIssues);
                     setIsLoading(false);
                     setStatus(SUCCESS_MESSAGE);
                     setTimeout(() => bottomRef.current.scrollIntoView(), 250);
