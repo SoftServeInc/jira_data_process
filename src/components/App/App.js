@@ -9,6 +9,7 @@ import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import {withStyles} from '@material-ui/core/styles';
+import {green} from '@material-ui/core/colors';
 import ScrollTop from 'im';
 const Excel = require('exceljs');
 import {saveAs} from '@progress/kendo-file-saver';
@@ -35,11 +36,20 @@ const SUCCESS_MESSAGE = 'Success! Data was received';
 const ERROR_MESSAGE =
     "Something went wrong. Maybe it's the problem with your VPN connection. Also, please check your JIRA credentials, URL, query and try again...";
 
+const GreenCheckbox = withStyles({
+    root: {
+        color: green[400],
+        '&$checked': {
+            color: green[600]
+        }
+    },
+    checked: {}
+})((props) => <Checkbox color="default" {...props} />);
+
 const App = (props) => {
     const {classes} = props;
 
     const bottomRef = useRef();
-    const [data, setData] = useState(null);
     const [status, setStatus] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [jiraUrl, setJiraUrl] = useState(null);
@@ -49,6 +59,8 @@ const App = (props) => {
     const [isUsernameTouched, setIsUsernameTouched] = useState(false);
     const [isPasswordTouched, setIsPasswordTouched] = useState(false);
     const [jql, setJQL] = useState('');
+    const [receivedProcessedData, setReceivedProcessedData] = useState(null);
+    const [resultedData, setResultedData] = useState(null);
     const [checkboxState, setCheckboxState] = useState({
         labelsChecked: false,
         componentsChecked: false,
@@ -56,11 +68,16 @@ const App = (props) => {
         subtasksCountChecked: false,
         priorityChecked: false,
         reporterChecked: false,
-        updatedDateChecked: false
+        updatedDateChecked: false,
+        agreeChecked: false
     });
 
-    const isDataPresent = (data) => {
-        if (data && data !== ERROR_MESSAGE) {
+    const isUploadUnavailable = (status) => {
+        if (status && status !== ERROR_MESSAGE) {
+            if (!checkboxState.agreeChecked) {
+                return true;
+            }
+
             return false;
         }
 
@@ -69,7 +86,7 @@ const App = (props) => {
 
     const clickOnGetData = () => {
         setIsLoading(true);
-        setData(null);
+        setReceivedProcessedData(null);
         setTimeout(() => bottomRef.current.scrollIntoView(), 250);
         axios
             .get(
@@ -146,7 +163,8 @@ const App = (props) => {
                             updated: issue.fields.updated
                         };
                     });
-                    setData(processedIssues);
+                    setReceivedProcessedData(processedIssues);
+                    // eslint-disable-next-line no-console
                     console.log(processedIssues);
                     setIsLoading(false);
                     setStatus(SUCCESS_MESSAGE);
@@ -360,6 +378,9 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="reporterChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Reporter"
@@ -372,6 +393,9 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="labelsChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Labels"
@@ -384,6 +408,9 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="priorityChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Priority"
@@ -396,6 +423,9 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="subtasksCountChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Subtasks count"
@@ -408,6 +438,9 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="updatedDateChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Updated date"
@@ -420,6 +453,9 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="componentsChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Components"
@@ -432,12 +468,29 @@ const App = (props) => {
                                             }
                                             onChange={handleCheckboxChange}
                                             name="fixVersionsChecked"
+                                            disabled={
+                                                checkboxState.agreeChecked
+                                            }
                                         />
                                     }
                                     label="Fix versions"
                                 />
                             </FormGroup>
                         </div>
+                    </div>
+                    <div className="agreeCheckbox">
+                        <FormGroup>
+                            <FormControlLabel
+                                control={
+                                    <GreenCheckbox
+                                        checked={checkboxState.agreeChecked}
+                                        onChange={handleCheckboxChange}
+                                        name="agreeChecked"
+                                    />
+                                }
+                                label="Are you agree with current configuration?"
+                            />
+                        </FormGroup>
                     </div>
                     <div className="dataButton">
                         <Button
@@ -446,7 +499,7 @@ const App = (props) => {
                             color="default"
                             className={classes.button}
                             onClick={downloadFileOnClick}
-                            disabled={isDataPresent(status)}
+                            disabled={isUploadUnavailable(status)}
                         >
                             Upload
                             <CloudUploadIcon className={classes.rightIcon} />

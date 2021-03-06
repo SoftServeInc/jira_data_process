@@ -114,3 +114,8 @@ body {
   margin: 30px auto !important;
   ;
 }
+
+.agreeCheckbox {
+  margin: auto;
+  width: 353px;
+}
