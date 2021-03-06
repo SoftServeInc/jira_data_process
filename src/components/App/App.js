@@ -31,9 +31,9 @@ const styles = (theme) => ({
     }
 });
 
+const SUCCESS_MESSAGE = 'Success! Data was received';
 const ERROR_MESSAGE =
     "Something went wrong. Maybe it's the problem with your VPN connection. Also, please check your JIRA credentials, URL, query and try again...";
-const SUCCESS_MESSAGE = 'Success! Data was received';
 
 const App = (props) => {
     const {classes} = props;
@@ -70,10 +70,7 @@ const App = (props) => {
 
     const clickOnGetData = () => {
         setIsLoading(true);
-        setTimeout(
-            () => bottomRef.current.scrollIntoView({behavior: 'smooth'}),
-            250
-        );
+        setTimeout(() => bottomRef.current.scrollIntoView(), 250);
         axios
             .get(
                 'http://localhost:5000/api/search?jiraUrl=' +
@@ -108,23 +105,11 @@ const App = (props) => {
                     setReceivedData(issues);
                     setIsLoading(false);
                     setStatus(SUCCESS_MESSAGE);
-                    setTimeout(
-                        () =>
-                            bottomRef.current.scrollIntoView({
-                                behavior: 'smooth'
-                            }),
-                        250
-                    );
+                    setTimeout(() => bottomRef.current.scrollIntoView(), 250);
                 } else {
                     setIsLoading(false);
                     setStatus(ERROR_MESSAGE);
-                    setTimeout(
-                        () =>
-                            bottomRef.current.scrollIntoView({
-                                behavior: 'smooth'
-                            }),
-                        250
-                    );
+                    setTimeout(() => bottomRef.current.scrollIntoView(), 250);
                 }
             });
     };
