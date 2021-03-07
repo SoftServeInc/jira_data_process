@@ -123,13 +123,32 @@ body {
   margin-right: 12px !important;
 }
 
-.uploadTitle {
-  width: 600px;
-  margin: 30px auto !important;
-  ;
+.configurationFieldsTitle {
+  margin: 20px auto !important;
+  width: 400px;
 }
 
 .agreeCheckbox {
   margin: auto;
   width: 353px;
+}
+
+.chooseFileTitle {
+  width: 510px;
+  margin: 30px auto !important;
+}
+
+.chooseFileContainer {
+  width: fit-content;
+  margin: 0px auto 30px;
+  padding-left: 40px;
+}
+
+.checkIcon {
+  margin-top: 4px !important;
+  margin-left: 10px !important;
+}
+
+.hideCheckIcon {
+  visibility: hidden;
 }

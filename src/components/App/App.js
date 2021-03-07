@@ -8,6 +8,7 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import CheckIcon from '@material-ui/icons/Check';
 import {withStyles} from '@material-ui/core/styles';
 import {green} from '@material-ui/core/colors';
 import ScrollTop from 'im';
@@ -27,8 +28,11 @@ const styles = (theme) => ({
     rightIcon: {
         marginLeft: theme.spacing(1)
     },
-    root: {
-        display: 'flex'
+    chooseFile: {
+        display: 'flex',
+        '& > *': {
+            margin: theme.spacing(0)
+        }
     }
 });
 
@@ -78,6 +82,26 @@ const App = (props) => {
         updatedDateChecked: false,
         agreeChecked: false
     });
+
+    const getWorksheetColumns = (worksheet) => {
+        worksheet.columns = [
+            {header: 'Key', key: 'key'},
+            {header: 'Type', key: 'type'},
+            {header: 'Summary', key: 'summary'},
+            {header: 'Assignee', key: 'assignee'},
+            {header: 'Story Points', key: 'story_points'},
+            {header: 'Status', key: 'status'},
+            {header: 'Labels', key: 'labels'},
+            {header: 'Components', key: 'components'},
+            {header: 'Fix Versions', key: 'fix_versions'},
+            {header: 'Subtasks count', key: 'subtasks_count'},
+            {header: 'Priority', key: 'priority'},
+            {header: 'Reporter', key: 'reporter'},
+            {header: 'Updated', key: 'updated'}
+        ];
+
+        return worksheet;
+    };
 
     const isUploadUnavailable = (status) => {
         if (status && status !== ERROR_MESSAGE) {
@@ -129,8 +153,7 @@ const App = (props) => {
 
                             return issue;
                         });
-                    // eslint-disable-next-line no-console
-                    console.log(issues);
+
                     const processedIssues = issues.map((issue) => {
                         return {
                             key: issue.key,
@@ -206,6 +229,7 @@ const App = (props) => {
                 updated: issue.updated
             });
         });
+        // eslint-disable-next-line no-console
         console.log(worksheet);
     };
 
@@ -244,23 +268,9 @@ const App = (props) => {
         if (selectedFile) {
             workbook.xlsx.load(selectedFile).then(() => {
                 let worksheet = workbook.getWorksheet(1);
-                worksheet.columns = [
-                    {header: 'Key', key: 'key'},
-                    {header: 'Type', key: 'type'},
-                    {header: 'Summary', key: 'summary'},
-                    {header: 'Assignee', key: 'assignee'},
-                    {header: 'Story Points', key: 'story_points'},
-                    {header: 'Status', key: 'status'},
-                    {header: 'Labels', key: 'labels'},
-                    {header: 'Components', key: 'components'},
-                    {header: 'Fix Versions', key: 'fix_versions'},
-                    {header: 'Subtasks count', key: 'subtasks_count'},
-                    {header: 'Priority', key: 'priority'},
-                    {header: 'Reporter', key: 'reporter'},
-                    {header: 'Updated', key: 'updated'}
-                ];
-
+                getWorksheetColumns(worksheet);
                 addRows(finalData, worksheet);
+
                 workbook.xlsx.writeBuffer().then((data) => {
                     let blob = new Blob([data], {
                         type:
@@ -271,21 +281,7 @@ const App = (props) => {
             });
         } else {
             let worksheet = workbook.addWorksheet('Jira');
-            worksheet.columns = [
-                {header: 'Key', key: 'key'},
-                {header: 'Type', key: 'type'},
-                {header: 'Summary', key: 'summary'},
-                {header: 'Assignee', key: 'assignee'},
-                {header: 'Story Points', key: 'story_points'},
-                {header: 'Status', key: 'status'},
-                {header: 'Labels', key: 'labels'},
-                {header: 'Components', key: 'components'},
-                {header: 'Fix Versions', key: 'fix_versions'},
-                {header: 'Subtasks count', key: 'subtasks_count'},
-                {header: 'Priority', key: 'priority'},
-                {header: 'Reporter', key: 'reporter'},
-                {header: 'Updated', key: 'updated'}
-            ];
+            getWorksheetColumns(worksheet);
 
             worksheet.columns.forEach((column) => {
                 column.width =
@@ -459,12 +455,36 @@ const App = (props) => {
                         variant="h5"
                         gutterBottom
                         align="center"
-                        className="uploadTitle"
+                        className="chooseFileTitle"
                     >
-                        You can download the file with issues data by clicking
-                        the button below! Also, you can choose additional
-                        fields, on which data will be saved in your file too!
+                        You can choose the existing file, that contains Jira
+                        data and download merged results by clicking the last
+                        button on this page
                     </Typography>
+                    <div
+                        className={`${classes.chooseFile} chooseFileContainer`}
+                    >
+                        <Button
+                            variant="contained"
+                            component="label"
+                            color="primary"
+                        >
+                            Choose File
+                            <input type="file" onChange={onFileChange} hidden />
+                        </Button>
+                        <CheckIcon
+                            className={`${
+                                !selectedFile && 'hideCheckIcon'
+                            } checkIcon`}
+                            style={{color: green[500]}}
+                        />
+                    </div>
+                    <div className="configurationFieldsTitle">
+                        <Typography variant="h6" gutterBottom align="center">
+                            If you want, you can configure fields, data from
+                            which will be saved in your source file!
+                        </Typography>
+                    </div>
                     <Typography variant="h6" gutterBottom align="center">
                         Required fields
                     </Typography>
@@ -725,7 +745,6 @@ const App = (props) => {
                             <CloudUploadIcon className={classes.rightIcon} />
                         </Button>
                     </div>
-                    <input type="file" onChange={onFileChange} />
                 </Fragment>
             )}
             <div ref={bottomRef} />
