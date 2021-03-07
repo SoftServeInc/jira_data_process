@@ -60,7 +60,7 @@ const App = (props) => {
     const [isPasswordTouched, setIsPasswordTouched] = useState(false);
     const [jql, setJQL] = useState('');
     const [receivedProcessedData, setReceivedProcessedData] = useState(null);
-    // const [resultedData, setResultedData] = useState(null);
+    const [resultedData, setResultedData] = useState(null);
     const [checkboxState, setCheckboxState] = useState({
         keyChecked: true,
         issueTypeChecked: true,
@@ -208,7 +208,31 @@ const App = (props) => {
                 column.header.length < 12 ? 12 : column.header.length;
         });
         worksheet.getRow(1).font = {bold: true};
-        saveAs(workbook.xlsx, 'data_sheet.xlsx');
+
+        resultedData.forEach((issue) => {
+            worksheet.addRow({
+                key: issue.key,
+                type: issue.issueType,
+                summary: issue.summary,
+                assignee: issue.assignee,
+                story_points: issue.storyPoints,
+                status: issue.status,
+                labels: issue.labels,
+                components: issue.components,
+                fix_versions: issue.fixVersions,
+                subtasks_count: issue.subtasksCount,
+                priority: issue.priority,
+                reporter: issue.reporter,
+                updated: issue.updated
+            });
+        });
+        workbook.xlsx.writeBuffer().then(function (data) {
+            var blob = new Blob([data], {
+                type:
+                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+            });
+            saveAs(blob, 'data_sheet.xlsx');
+        });
     };
 
     const handleJiraUrlChange = (e) => {
@@ -283,6 +307,7 @@ const App = (props) => {
             });
             // eslint-disable-next-line no-console
             console.log(finalData);
+            setResultedData(finalData);
         }
     };
 
