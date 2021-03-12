@@ -1,0 +1,14 @@
+.choose-file-container {
+	width: fit-content;
+	margin: 0px auto 30px;
+	padding-left: 40px;
+}
+  
+.check-icon {
+	margin-top: 4px !important;
+	margin-left: 10px !important;
+}
+  
+.hide-check-icon {
+	visibility: hidden;
+}
