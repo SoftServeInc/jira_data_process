@@ -26,6 +26,9 @@ A project was written on React JS using server-client architecture. Several scre
 #### Fields choosing
 ![Alt text](/projectImages/fields.png?raw=true "Fields choosing")
 
+## Where you can find contribution guidelines?
+You can find all contribution guidelines in [CONTRIBUTING.md](https://github.com/SoftServeInc/jira_data_process/blob/master/CONTRIBUTING.md).
+
 ## How to start an application?
 
 run the following to start the application:

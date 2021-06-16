@@ -6,4 +6,4 @@ labels: ''
 assignees: ''
 ---
 
-Create appropriate [PR in the project](https://github.com/vyshyvanv/jira_processing/pulls) and add bug essence in the description.
+Create appropriate [PR in the project](https://github.com/SoftServeInc/jira_data_process/pulls) and add bug essence in the description.

@@ -26,7 +26,7 @@ INCLUDE SCREENSHOT OF BEFORE/AFTER, TEST VARIANTS, ETC. FOR ANY UI CHANGES
 | REPLACE WITH SCREENSHOT | REPLACE WITH SCREENSHOT |
 
 ### PR Author Checklist
-The following are required to be performed and subsequently checked off by the PR Author for all PRs, no exception. Note that, PR Reviewers rely on the "X of Y" display for each pull request in the [Pull request tab](https://github.com/vyshyvanv/jira_processing/pulls) of this repository, and thus may ignore your PR until your PR shows "3 of 3" in the Pull requests tab for this repo. 
+The following are required to be performed and subsequently checked off by the PR Author for all PRs, no exception. Note that, PR Reviewers rely on the "X of Y" display for each pull request in the [Pull request tab](https://github.com/SoftServeInc/jira_data_process/pulls) of this repository, and thus may ignore your PR until your PR shows "3 of 3" in the Pull requests tab for this repo. 
 <!-- Add "Status: Needs Review" label to the PR once checklist is filled. -->
 
 -   [ ] Sections of this PR template not filled in or are not applicable have been removed
