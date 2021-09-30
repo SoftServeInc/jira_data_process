@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
 
 app.use(bodyParser.json());
 
-app.use('/api', require('../server/controllers/search'));
+app.use('/api', require('./router/index'));
 
 const PORT = process.env.PORT || 5000;
 
