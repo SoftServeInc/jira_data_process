@@ -1,0 +1,26 @@
+name: CI
+
+on:
+  [pull_request, workflow_dispatch]
+
+jobs:
+  CI:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: '16'
+
+      - name: Install packages
+        run: npm install
+
+      - name: The eslint checking
+        run: npm run lint
+
+      - name: Run tests
+      - run: npm test -- -u
