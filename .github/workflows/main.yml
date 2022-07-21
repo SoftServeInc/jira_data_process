@@ -1,11 +1,16 @@
 name: CI
 
 on:
-  [pull_request, workflow_dispatch]
+  push:
+    branches: [master, development]
+  pull_request:
+    branches: [master, development]
+  workflow_dispatch:
 
 jobs:
   CI:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
         with:
