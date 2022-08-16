@@ -28,6 +28,6 @@ describe('Search integration tests', function () {
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual(searchResponseStub);
-        server.close(done);
+        await server.close(done);
     });
 });

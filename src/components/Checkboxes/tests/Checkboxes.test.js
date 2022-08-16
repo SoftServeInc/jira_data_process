@@ -50,7 +50,7 @@ describe('<Checkboxes />', () => {
         expect(component.find('.required-checkboxes')).toHaveLength(0);
     });
 
-    it('should call setCheckboxState prop function on checkbox value change', async () => {
+    it('should call setCheckboxState prop function on checkbox value change', () => {
         defaultProps = {
             ...defaultProps,
             setCheckboxState: jest.fn()
