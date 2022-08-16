@@ -37,11 +37,12 @@ run the following to start the application:
 2. 'npm start'
 
 ## Prerequisites
-1. Node.js (required) [npm](https://www.npmjs.com/get-npm)
+1. Node.js v14.18.2 is required. [npm](https://nodejs.org/ja/blog/release/v14.18.2/)
 
-#### How to install prerequisites from CLI using Homebrew:
-1. Update Homebrew
-2. Node.js: 'brew install node'
+#### How to install prerequisites from CLI
+It's possible to install the nvm. It allows you to quickly install and use different versions of node via the command line.
+
+Link - https://github.com/nvm-sh/nvm.
 
 ## Built With
 

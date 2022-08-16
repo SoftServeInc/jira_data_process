@@ -15,7 +15,7 @@ const JiraQuery = ({jql, handleJiraQueryChange}) => {
                     id="outlined-multiline-static"
                     label="Jira Query"
                     multiline
-                    rows={4}
+                    minRows={4}
                     defaultValue={jql}
                     variant="outlined"
                     onChange={handleJiraQueryChange}
