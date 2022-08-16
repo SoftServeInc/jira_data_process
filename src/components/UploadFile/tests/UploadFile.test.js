@@ -8,7 +8,7 @@ expect.addSnapshotSerializer(serializer);
 describe('<UploadFile />', () => {
     let defaultProps;
 
-    beforeEach(async () => {
+    beforeEach(() => {
         defaultProps = {
             selectedFile: false,
             onFileChange: jest.fn()
