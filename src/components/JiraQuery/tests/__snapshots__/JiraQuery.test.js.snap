@@ -16,8 +16,8 @@ exports[`<JiraQuery /> renders JiraQuery component 1`] = `
       defaultValue="status=done AND project=\\"EXAMPLE\\" AND assignee=username"
       id="outlined-multiline-static"
       label="Jira Query"
+      minRows={4}
       multiline={true}
-      rows={4}
       variant="outlined"
     />
   </div>
