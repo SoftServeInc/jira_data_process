@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<JiraQuery /> renders JiraQuery component 1`] = `
+<Fragment>
+  <WithStyles(ForwardRef(Typography))
+    align="center"
+    gutterBottom={true}
+    variant="h6"
+  >
+    Please, enter JIRA query needed to retrieve issues data!
+  </WithStyles(ForwardRef(Typography))>
+  <div
+    className="jira-query"
+  >
+    <WithStyles(ForwardRef(TextField))
+      defaultValue="status=done AND project=\\"EXAMPLE\\" AND assignee=username"
+      id="outlined-multiline-static"
+      label="Jira Query"
+      minRows={4}
+      multiline={true}
+      variant="outlined"
+    />
+  </div>
+</Fragment>
+`;
