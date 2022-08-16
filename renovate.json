@@ -2,7 +2,7 @@
   "extends": ["config:base"],
   "packageRules": [
     {
-      "updateTypes": ["minor", "patch", "major"],
+      "updateTypes": ["minor", "patch"],
       "automerge": false
     }
   ],

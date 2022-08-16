@@ -124,8 +124,7 @@ const App = () => {
 
                 workbook.xlsx.writeBuffer().then((data) => {
                     let blob = new Blob([data], {
-                        type:
-                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                     });
                     saveAs(blob, 'data_sheet.xlsx');
                 });
@@ -144,8 +143,7 @@ const App = () => {
 
             workbook.xlsx.writeBuffer().then((data) => {
                 let blob = new Blob([data], {
-                    type:
-                        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                    type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                 });
                 saveAs(blob, 'data_sheet.xlsx');
             });

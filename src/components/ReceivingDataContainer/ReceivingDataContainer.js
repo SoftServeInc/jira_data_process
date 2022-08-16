@@ -27,7 +27,7 @@ const ReceivingDataContainer = ({
         setTimeout(() => bottomRef.current.scrollIntoView(), 250);
         axios
             .get(
-                'http://localhost:5000/api/search?jiraUrl=' +
+                'http://localhost:8000/api/search?jiraUrl=' +
                     jiraUrl +
                     '&username=' +
                     username +
