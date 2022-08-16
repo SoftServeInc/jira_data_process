@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DataButton /> renders DataButton component 1`] = `
+<div
+  className="data-button"
+>
+  <WithStyles(ForwardRef(Button))
+    className="DataButton-margin-1"
+    color="primary"
+    disabled={false}
+    size="large"
+    variant="contained"
+  >
+    GET DATA
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;
