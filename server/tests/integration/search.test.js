@@ -1,5 +1,5 @@
 const app = require('../../server');
-const agent = require('supertest');
+const request = require('supertest');
 const {searchResponseStub} = require('./stubs');
 
 jest.mock('jira-connector', () => {
@@ -19,15 +19,12 @@ jest.mock('jira-connector', () => {
 });
 
 describe('Search integration tests', function () {
-    it('should return expected result', async (done) => {
-        const server = app.listen(done);
-        const request = agent(server);
-        const response = await request.get(
+    it('should return expected result', async () => {
+        const response = await request(app).get(
             '/api/search?jql=reporter%20=%20user%20AND%20project%20=%20project&jiraUrl=jira.com&username=user&password=password'
         );
 
         expect(response.statusCode).toBe(200);
         expect(response.body).toEqual(searchResponseStub);
-        await server.close(done);
     });
 });
