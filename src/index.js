@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 /* eslint-disable no-undef */
 import React from 'react';
 import ReactDOM from 'react-dom';

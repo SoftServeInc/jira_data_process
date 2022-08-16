@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<DownloadButton /> renders DownloadButton component 1`] = `
+<div
+  className="download-button"
+>
+  <WithStyles(ForwardRef(Button))
+    className="DownloadButton-button-1"
+    color="default"
+    disabled={false}
+    size="large"
+    variant="contained"
+  >
+    Upload
+    <Memo(ForwardRef(CloudUploadIcon))
+      className="DownloadButton-rightIcon-2"
+    />
+  </WithStyles(ForwardRef(Button))>
+</div>
+`;

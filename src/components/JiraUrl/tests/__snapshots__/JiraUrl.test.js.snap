@@ -1,0 +1,28 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<JiraUrl /> renders JiraUrl component 1`] = `
+<Fragment>
+  <WithStyles(ForwardRef(Typography))
+    align="center"
+    className="jira-url-title"
+    gutterBottom={true}
+    variant="h6"
+  >
+    Please, enter JIRA URL below! (Example - jira.organization.com)
+  </WithStyles(ForwardRef(Typography))>
+  <form
+    autoComplete="off"
+    className="jira-url-container"
+    noValidate={true}
+  >
+    <WithStyles(ForwardRef(TextField))
+      defaultValue="jira.example.com"
+      helperText="Jira URL field can't be empty."
+      label="Jira URL"
+      required={true}
+      type="text"
+      variant="outlined"
+    />
+  </form>
+</Fragment>
+`;

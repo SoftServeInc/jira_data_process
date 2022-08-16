@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<GreenCheckbox /> renders GreenCheckbox component 1`] = `
+<WithStyles(ForwardRef(Checkbox))
+  classes={
+    Object {
+      "checked": "Component-checked-2",
+      "root": "Component-root-1",
+    }
+  }
+  color="default"
+/>
+`;
