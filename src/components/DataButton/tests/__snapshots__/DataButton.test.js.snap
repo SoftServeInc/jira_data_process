@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DataButton /> renders DataButton component 1`] = `
-<div
-  className="data-button"
->
+<styled.div>
   <WithStyles(ForwardRef(Button))
     className="DataButton-margin-1"
     color="primary"
@@ -13,5 +11,5 @@ exports[`<DataButton /> renders DataButton component 1`] = `
   >
     GET DATA
   </WithStyles(ForwardRef(Button))>
-</div>
+</styled.div>
 `;

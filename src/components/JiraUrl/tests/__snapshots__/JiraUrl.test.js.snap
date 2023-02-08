@@ -2,17 +2,15 @@
 
 exports[`<JiraUrl /> renders JiraUrl component 1`] = `
 <Fragment>
-  <WithStyles(ForwardRef(Typography))
+  <Styled(WithStyles(ForwardRef(Typography)))
     align="center"
-    className="jira-url-title"
     gutterBottom={true}
     variant="h6"
   >
     Please, enter JIRA URL below! (Example - jira.organization.com)
-  </WithStyles(ForwardRef(Typography))>
-  <form
+  </Styled(WithStyles(ForwardRef(Typography)))>
+  <styled.form
     autoComplete="off"
-    className="jira-url-container"
     noValidate={true}
   >
     <WithStyles(ForwardRef(TextField))
@@ -23,6 +21,6 @@ exports[`<JiraUrl /> renders JiraUrl component 1`] = `
       type="text"
       variant="outlined"
     />
-  </form>
+  </styled.form>
 </Fragment>
 `;

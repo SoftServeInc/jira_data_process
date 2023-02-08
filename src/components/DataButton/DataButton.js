@@ -1,8 +1,13 @@
 import React from 'react';
+import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import {withStyles} from '@material-ui/core/styles';
 
-import './DataButton.css';
+export const ButtonWrapper = styled.div`
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 20px;
+`;
 
 const styles = (theme) => ({
     margin: {
@@ -19,7 +24,7 @@ const DataButton = ({
     classes
 }) => {
     return (
-        <div className="data-button">
+        <ButtonWrapper>
             <Button
                 variant="contained"
                 size="large"
@@ -30,7 +35,7 @@ const DataButton = ({
             >
                 GET DATA
             </Button>
-        </div>
+        </ButtonWrapper>
     );
 };
 

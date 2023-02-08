@@ -3,8 +3,7 @@ import Button from '@material-ui/core/Button';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {withStyles} from '@material-ui/core/styles';
 import {ERROR_MESSAGE} from '../../constants/statusMessages';
-
-import './DownloadButton.css';
+import {ButtonWrapper} from '../DataButton/DataButton';
 
 const styles = (theme) => ({
     button: {
@@ -34,7 +33,7 @@ const DownloadButton = ({
     };
 
     return (
-        <div className="download-button">
+        <ButtonWrapper>
             <Button
                 variant="contained"
                 size="large"
@@ -46,7 +45,7 @@ const DownloadButton = ({
                 Upload
                 <CloudUploadIcon className={classes.rightIcon} />
             </Button>
-        </div>
+        </ButtonWrapper>
     );
 };
 

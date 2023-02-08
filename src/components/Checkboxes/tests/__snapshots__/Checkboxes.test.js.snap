@@ -2,9 +2,7 @@
 
 exports[`<Checkboxes /> renders Checkboxes component 1`] = `
 <Fragment>
-  <div
-    className="configuration-fields-title"
-  >
+  <styled.div>
     <WithStyles(ForwardRef(Typography))
       align="center"
       gutterBottom={true}
@@ -12,7 +10,7 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
     >
       If you want, you can configure fields, data from which will be saved in your source file!
     </WithStyles(ForwardRef(Typography))>
-  </div>
+  </styled.div>
   <WithStyles(ForwardRef(Typography))
     align="center"
     gutterBottom={true}
@@ -20,9 +18,7 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
   >
     Required fields
   </WithStyles(ForwardRef(Typography))>
-  <div
-    className="unblock-checkbox"
-  >
+  <styled.div>
     <WithStyles(ForwardRef(FormGroup))>
       <WithStyles(ForwardRef(FormControlLabel))
         control={
@@ -37,8 +33,8 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
         label="Do you want to configure required fields?"
       />
     </WithStyles(ForwardRef(FormGroup))>
-  </div>
-  <div
+  </styled.div>
+  <styled.div
     className="required-checkboxes"
   >
     <div>
@@ -113,10 +109,8 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
         />
       </WithStyles(ForwardRef(FormGroup))>
     </div>
-  </div>
-  <div
-    className="optional-fields-container"
-  >
+  </styled.div>
+  <styled.div>
     <WithStyles(ForwardRef(Typography))
       align="center"
       gutterBottom={true}
@@ -124,10 +118,8 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
     >
       Optional fields
     </WithStyles(ForwardRef(Typography))>
-  </div>
-  <div
-    className="optional-checkboxes"
-  >
+  </styled.div>
+  <styled.div>
     <div>
       <WithStyles(ForwardRef(FormGroup))
         row={true}
@@ -211,10 +203,8 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
         />
       </WithStyles(ForwardRef(FormGroup))>
     </div>
-  </div>
-  <div
-    className="agree-checkbox"
-  >
+  </styled.div>
+  <styled.div>
     <WithStyles(ForwardRef(FormGroup))>
       <WithStyles(ForwardRef(FormControlLabel))
         control={
@@ -227,6 +217,6 @@ exports[`<Checkboxes /> renders Checkboxes component 1`] = `
         label="Are you agree with current configuration?"
       />
     </WithStyles(ForwardRef(FormGroup))>
-  </div>
+  </styled.div>
 </Fragment>
 `;
