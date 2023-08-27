@@ -1,8 +1,25 @@
+import styled from 'styled-components';
 import React, {Fragment, useState} from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import './JiraCredentials.css';
+const CredentailsContainer = styled.form`
+    width: 400px;
+    text-align: center;
+    margin: 30px auto;
+`;
+
+const Title = styled(Typography)`
+    margin-top: 30px;
+`;
+
+const Credentails = styled.div`
+    margin: 20px auto;
+`;
+
+const TextFieldWrapper = styled(TextField)`
+    width: 250px !important;
+`;
 
 const JiraCredentials = ({username, password, setUsername, setPassword}) => {
     const [isUsernameTouched, setIsUsernameTouched] = useState(false);
@@ -26,21 +43,12 @@ const JiraCredentials = ({username, password, setUsername, setPassword}) => {
 
     return (
         <Fragment>
-            <Typography
-                variant="h6"
-                gutterBottom
-                align="center"
-                className="jira-credentails-title"
-            >
+            <Title variant="h6" gutterBottom align="center">
                 Please, enter your JIRA credentials here!
-            </Typography>
-            <form
-                className="jira-credentails-container"
-                noValidate
-                autoComplete="off"
-            >
-                <div className="jira-credentails">
-                    <TextField
+            </Title>
+            <CredentailsContainer noValidate autoComplete="off">
+                <Credentails>
+                    <TextFieldWrapper
                         variant="outlined"
                         required
                         error={isUsernameTouched && !username}
@@ -48,12 +56,11 @@ const JiraCredentials = ({username, password, setUsername, setPassword}) => {
                         label="Usename"
                         type="text"
                         defaultValue={username}
-                        className="jira-credentails-field"
                         onChange={handleUsernameChange}
                     />
-                </div>
-                <div className="jira-credentails">
-                    <TextField
+                </Credentails>
+                <Credentails>
+                    <TextFieldWrapper
                         variant="outlined"
                         required
                         error={isPasswordTouched && !password}
@@ -62,11 +69,10 @@ const JiraCredentials = ({username, password, setUsername, setPassword}) => {
                         label="Password"
                         type="password"
                         defaultValue={password}
-                        className="jira-credentails-field"
                         onChange={handlePasswordChange}
                     />
-                </div>
-            </form>
+                </Credentails>
+            </CredentailsContainer>
         </Fragment>
     );
 };

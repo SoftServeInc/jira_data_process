@@ -1,11 +1,39 @@
 import React, {Fragment} from 'react';
+import styled from 'styled-components';
 import Typography from '@material-ui/core/Typography';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import GreenCheckbox from './GreenCheckbox/GreenCheckbox';
 
-import './Checkboxes.css';
+const UnblockCheckbox = styled.div`
+    width: fit-content;
+    margin: auto;
+`;
+
+const RequiredCheckbox = styled.div`
+    width: 720px;
+    margin: auto;
+`;
+
+const OptionalFields = styled.div`
+    margin-top: 10px;
+`;
+
+const OptionalCheckboxes = styled.div`
+    width: 954px;
+    margin: auto;
+`;
+
+const AgreeCheckboxes = styled.div`
+    margin: auto;
+    width: 353px;
+`;
+
+const Title = styled.div`
+    margin: 20px auto !important;
+    width: 400px;
+`;
 
 const Checkboxes = ({checkboxState, setCheckboxState}) => {
     const handleCheckboxChange = (event) => {
@@ -17,16 +45,16 @@ const Checkboxes = ({checkboxState, setCheckboxState}) => {
 
     return (
         <Fragment>
-            <div className="configuration-fields-title">
+            <Title>
                 <Typography variant="h6" gutterBottom align="center">
                     If you want, you can configure fields, data from which will
                     be saved in your source file!
                 </Typography>
-            </div>
+            </Title>
             <Typography variant="h6" gutterBottom align="center">
                 Required fields
             </Typography>
-            <div className="unblock-checkbox">
+            <UnblockCheckbox>
                 <FormGroup>
                     <FormControlLabel
                         control={
@@ -41,9 +69,9 @@ const Checkboxes = ({checkboxState, setCheckboxState}) => {
                         label="Do you want to configure required fields?"
                     />
                 </FormGroup>
-            </div>
+            </UnblockCheckbox>
             {checkboxState.unblockChecked && (
-                <div className="required-checkboxes">
+                <RequiredCheckbox className="required-checkboxes">
                     <div>
                         <FormGroup row>
                             <FormControlLabel
@@ -116,14 +144,14 @@ const Checkboxes = ({checkboxState, setCheckboxState}) => {
                             />
                         </FormGroup>
                     </div>
-                </div>
+                </RequiredCheckbox>
             )}
-            <div className="optional-fields-container">
+            <OptionalFields>
                 <Typography variant="h6" gutterBottom align="center">
                     Optional fields
                 </Typography>
-            </div>
-            <div className="optional-checkboxes">
+            </OptionalFields>
+            <OptionalCheckboxes>
                 <div>
                     <FormGroup row>
                         <FormControlLabel
@@ -205,8 +233,8 @@ const Checkboxes = ({checkboxState, setCheckboxState}) => {
                         />
                     </FormGroup>
                 </div>
-            </div>
-            <div className="agree-checkbox">
+            </OptionalCheckboxes>
+            <AgreeCheckboxes>
                 <FormGroup>
                     <FormControlLabel
                         control={
@@ -219,7 +247,7 @@ const Checkboxes = ({checkboxState, setCheckboxState}) => {
                         label="Are you agree with current configuration?"
                     />
                 </FormGroup>
-            </div>
+            </AgreeCheckboxes>
         </Fragment>
     );
 };

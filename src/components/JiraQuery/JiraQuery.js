@@ -1,8 +1,12 @@
+import styled from 'styled-components';
 import React, {Fragment} from 'react';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 
-import './JiraQuery.css';
+const JiraQueryContainer = styled.div`
+    margin: 30px auto 0;
+    width: 400px;
+`;
 
 const JiraQuery = ({jql, handleJiraQueryChange}) => {
     return (
@@ -10,7 +14,7 @@ const JiraQuery = ({jql, handleJiraQueryChange}) => {
             <Typography variant="h6" gutterBottom align="center">
                 Please, enter JIRA query needed to retrieve issues data!
             </Typography>
-            <div className="jira-query">
+            <JiraQueryContainer>
                 <TextField
                     id="outlined-multiline-static"
                     label="Jira Query"
@@ -20,7 +24,7 @@ const JiraQuery = ({jql, handleJiraQueryChange}) => {
                     variant="outlined"
                     onChange={handleJiraQueryChange}
                 />
-            </div>
+            </JiraQueryContainer>
         </Fragment>
     );
 };

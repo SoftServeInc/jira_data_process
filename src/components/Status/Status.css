@@ -1,16 +1,16 @@
 .status {
-	text-align: center;
-	margin: 10px auto;
+    text-align: center;
+    margin: 10px auto;
 }
 
 .error {
-	width: 400px;
-	color:red;
-	margin-top: 0 !important;
-	padding-bottom: 20px;
+    width: 400px;
+    color: red;
+    margin-top: 0 !important;
+    padding-bottom: 20px;
 }
 
 .success {
-	color:green;
-	margin-top: 10px !important;
+    color: green;
+    margin-top: 10px !important;
 }

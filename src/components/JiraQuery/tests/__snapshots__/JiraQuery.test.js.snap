@@ -9,9 +9,7 @@ exports[`<JiraQuery /> renders JiraQuery component 1`] = `
   >
     Please, enter JIRA query needed to retrieve issues data!
   </WithStyles(ForwardRef(Typography))>
-  <div
-    className="jira-query"
-  >
+  <styled.div>
     <WithStyles(ForwardRef(TextField))
       defaultValue="status=done AND project=\\"EXAMPLE\\" AND assignee=username"
       id="outlined-multiline-static"
@@ -20,6 +18,6 @@ exports[`<JiraQuery /> renders JiraQuery component 1`] = `
       multiline={true}
       variant="outlined"
     />
-  </div>
+  </styled.div>
 </Fragment>
 `;

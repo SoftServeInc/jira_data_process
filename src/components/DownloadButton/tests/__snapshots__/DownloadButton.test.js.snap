@@ -1,9 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<DownloadButton /> renders DownloadButton component 1`] = `
-<div
-  className="download-button"
->
+<styled.div>
   <WithStyles(ForwardRef(Button))
     className="DownloadButton-button-1"
     color="default"
@@ -16,5 +14,5 @@ exports[`<DownloadButton /> renders DownloadButton component 1`] = `
       className="DownloadButton-rightIcon-2"
     />
   </WithStyles(ForwardRef(Button))>
-</div>
+</styled.div>
 `;
